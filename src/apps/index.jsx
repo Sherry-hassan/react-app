@@ -29,7 +29,9 @@ const AppDetails = () => {
           className="text-center border border-danger rounded p-3 mb-3 shadow"
         >
           <h2>Submit Items</h2>
-          <button className="btn btn-primary">Click Me</button>
+          <Link to="/submitform">
+            <button className="btn btn-primary">Click Me</button>
+          </Link>
         </Col>
       </Row>
     </Container>
