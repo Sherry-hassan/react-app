@@ -1,24 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import { Button, Container, Row, Col } from "react-bootstrap";
+import "./App.css";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <Container className="mt-5">
+      <Row>
+        <Col
+          md={4}
+          className="text-center border border-primary rounded p-3 mb-3 shadow"
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <h2>Counter App</h2>
+          <Button variant="primary" size="lg">
+            Click Me
+          </Button>
+        </Col>
+        <Col
+          md={4}
+          className="text-center border border-success rounded p-3 mb-3 shadow"
+        >
+          <h2>Todo App</h2>
+          <Button variant="primary" size="lg">
+            Click Me
+          </Button>
+        </Col>
+        <Col
+          md={4}
+          className="text-center border border-danger rounded p-3 mb-3 shadow"
+        >
+          <h2>Submit Items</h2>
+          <Button variant="primary" size="lg">
+            Click Me
+          </Button>
+        </Col>
+      </Row>
+    </Container>
   );
 }
 
