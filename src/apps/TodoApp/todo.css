@@ -76,7 +76,7 @@
   .delete-btn {
     font-size: 1.5rem;
     cursor: pointer;
-    width: 3rem;
+    width: 2.5rem;
     height: 2.5rem;
     border-radius: 80%;
     margin: 0 5px;
@@ -94,6 +94,7 @@
     font-size: 1.6rem;
     padding: 5px 15px;
     border-radius: 0.3rem;
+    color: white;
   }
   
   .clear-btn:hover {
