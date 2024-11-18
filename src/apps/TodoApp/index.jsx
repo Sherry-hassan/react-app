@@ -6,7 +6,12 @@ import { MdDeleteForever } from "react-icons/md";
 
 const TodoApp = () => {
   const [inputValue, setInputValue] = useState("")
-  const [task, setTask] = useState([])
+  const [task, setTask] = useState(()=>{
+    const rawTodos = localStorage.getItem("reactTodo")
+    if(!rawTodos) return []
+    return JSON.parse(rawTodos)
+  })
+
 
   const handleInputChange = (value) => {
     setInputValue(value)
@@ -20,6 +25,7 @@ const TodoApp = () => {
       setInputValue("")
       return
     }
+    localStorage.setItem("reactTodo",JSON.stringify(task))
 
     setTask((prevTask) => [...prevTask, inputValue])
     setInputValue("")
