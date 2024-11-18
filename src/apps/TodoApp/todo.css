@@ -62,7 +62,7 @@
     max-width: 40rem;
     padding: 10px 20px;
     display: grid;
-    grid-template-columns: 1fr 0.2fr 0.2fr;
+    grid-template-columns: 1fr 0.2fr ;
     justify-content: start;
     gap: 1.5rem;
     overflow-wrap: anywhere;
@@ -73,7 +73,6 @@
     color: #1c2833;
   }
   
-  .check-btn,
   .delete-btn {
     font-size: 1.5rem;
     cursor: pointer;
@@ -85,12 +84,6 @@
     color: rgb(0, 0, 0);
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   }
-  
-  .check-btn {
-    color: #fff;
-    background-color: #2ecc71;
-  }
-  
   .delete-btn {
     color: #fff;
     background-color: #e74c3c;

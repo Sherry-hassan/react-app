@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {Container} from "react-bootstrap"
  import '../TodoApp/todo.css';
-import { MdCheck } from "react-icons/md";
 import { MdDeleteForever } from "react-icons/md";
 
 const TodoApp = () => {
@@ -64,9 +63,6 @@ const TodoApp = () => {
             task.map((curTask, index) => {
               return <li key={index} className="todo-item">
                 <span>{curTask}</span>
-                <button className="check-btn">
-                  <MdCheck />
-                </button>
                 <button className="delete-btn" onClick={() => handleDeleteTodo(curTask)}>
                   <MdDeleteForever />
                 </button>
