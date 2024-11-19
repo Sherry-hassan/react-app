@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../SubmitForm/submit.css";
 import carImg from "../SubmitForm/images/car.jpg";
-import axios from "axios"; 
+import axios from "axios";
 
 const SubmitForm = () => {
   const [showModal, setShowModal] = useState(false);
@@ -11,14 +11,15 @@ const SubmitForm = () => {
     description: "",
     price: "",
   });
+  const [editingUserId, setEditingUserId] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/api/users"); 
-        setUserData(response.data); 
+        const response = await axios.get("http://localhost:3001/api/users");
+        setUserData(response.data);
       } catch (error) {
-        console.error("Failed to fetch data:", error);
+        console.error("Error fetching data:", error);
       }
     };
     fetchData();
@@ -30,19 +31,67 @@ const SubmitForm = () => {
   };
 
   const handleSave = async () => {
-    try {
-      const response = await axios.post("http://localhost:3001/api/users", formData); 
-      setUserData((prev) => [...prev, response.data]);
-      setFormData({ name: "", description: "", price: "" });
-      setShowModal(false);
-    } catch (error) {
-      console.error("Failed to save data:", error);
+    if (editingUserId) {
+      try {
+        const response = await axios.put(
+          `http://localhost:3001/api/users/${editingUserId}`,
+          formData
+        );
+        const updatedUser = response.data;
+        setUserData((prev) =>
+          prev.map((user) =>
+            user._id === updatedUser._id ? updatedUser : user
+          )
+        );
+        setFormData({ name: "", description: "", price: "" });
+        setShowModal(false);
+        setEditingUserId(null);
+      } catch (error) {
+        console.error("Error updating data:", error);
+      }
+    } else {
+      try {
+        const response = await axios.post(
+          "http://localhost:3001/api/users",
+          formData
+        );
+        const newUser = response.data;
+        setUserData((prev) => [...prev, newUser]);
+        setFormData({ name: "", description: "", price: "" });
+        setShowModal(false);
+      } catch (error) {
+        console.error("Error saving data:", error);
+      }
     }
   };
 
   const handleCancel = () => {
     setFormData({ name: "", description: "", price: "" });
     setShowModal(false);
+    setEditingUserId(null);
+  };
+
+  const handleEdit = (user) => {
+    setEditingUserId(user._id);
+    setFormData({
+      name: user.name,
+      description: user.description,
+      price: user.price,
+    });
+    setShowModal(true);
+  };
+
+  const handleDelete = async (userId) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:3001/api/users/${userId}`
+      );
+      if (response.status === 200) {
+        setUserData((prev) => prev.filter((user) => user._id !== userId));
+      }
+    } catch (error) {
+      console.error("Error deleting data:", error);
+    }
   };
 
   return (
@@ -59,25 +108,43 @@ const SubmitForm = () => {
       </header>
       <div className="user-data mt-3">
         {userData.map((user) => (
-          <div key={user._id} className="card p-3 me-2">
+          <div key={user._id} className="card p-3 mb-3">
             <img
               src={carImg}
               alt="User Image"
               className="user-image mb-3"
               style={{ width: "100%", height: "auto", borderRadius: "8px" }}
             />
-            <p><strong>Name:</strong> {user.name}</p>
-            <p><strong>Description:</strong> {user.description}</p>
-            <p><strong>Price:</strong> ${user.price}</p>
+            <p>
+              <strong>Name:</strong> {user.name}
+            </p>
+            <p>
+              <strong>Description:</strong> {user.description}
+            </p>
+            <p>
+              <strong>Price:</strong> ${user.price}
+            </p>
+            <button
+              className="btn btn-primary me-2 editBtn"
+              onClick={() => handleEdit(user)}
+            >
+              Edit
+            </button>
+            <button
+              className="btn btn-danger deleteBtn"
+              onClick={() => handleDelete(user._id)}
+            >
+              Delete
+            </button>
           </div>
         ))}
       </div>
 
       {showModal && (
         <>
-          <div className="overlay" onClick={() => setShowModal(false)}></div>
+          <div className="overlay" onClick={handleCancel}></div>
           <div className="modal_container">
-            <h2>Shehroz Hassan</h2>
+            <h2>{editingUserId ? "Edit User" : "Create User"}</h2>
             <div className="input-container">
               <label htmlFor="name">Name:</label>
               <input
@@ -121,7 +188,7 @@ const SubmitForm = () => {
                 className="btn btn-success submitBtn"
                 onClick={handleSave}
               >
-                Save
+                {editingUserId ? "Update" : "Save"}
               </button>
             </div>
           </div>
@@ -132,10 +199,3 @@ const SubmitForm = () => {
 };
 
 export default SubmitForm;
-
-
-
-
-
-
-
